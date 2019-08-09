@@ -93,17 +93,6 @@ class App extends Component {
     });
   }
 
-  resetMovement = async (list) => {
-    let newState = this.state[list];
-    newState.map((item) => {
-      if(item.moveTo)
-        delete item.moveTo;
-    });
-    await this.setState({
-      [list]: newState,
-    });
-  }
-
   render() {
     return (
       <Fragment>
