@@ -114,8 +114,8 @@ export default function ListBottom(props) {
         }, {once: true});
     }
 
-    async function resetParentMovement(){
-        setTimeout(async () => {
+    function resetParentMovement(){
+        setTimeout(() => {
             setTransformValue(0);
         }, 200);
     }

@@ -67,7 +67,7 @@ export default function ListItemCustom(props){
         >
             <ListItem>
                 <ListItemText
-                primary={item.item}
+                primary={item.name}
                 secondary={`Price: ${item.price}`}
                 />
                 <ListItemSecondaryAction>

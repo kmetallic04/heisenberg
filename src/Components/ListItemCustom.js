@@ -42,27 +42,27 @@ export default function ListItemCustom(props){
         resetParentMovement,
     } = props;
     
-    commonEmitter.once("list_bottom_transition_done", async (event) => {
+    commonEmitter.once("list_bottom_transition_done", (event) => {
         if (item.clicked) {
-            await setTransitionEnable(false);
-            await activateItem(item);
-            setTimeout(async () => {
-                await showItem(item, "active");
+            setTransitionEnable(false);
+            activateItem(item);
+            setTimeout(() => {
+                showItem(item, "active");
             }, 100);
         }
-        setTimeout(async () => {
+        setTimeout(() => {
             setTransitionEnable(true);
-            await resetParentMovement();
+            resetParentMovement();
         }, 150);
     });
 
-    async function onItemClick(){
+    function onItemClick(){
         const delta = (ref.current.clientHeight);
-        await setDelta(delta * 0.125);
-        await beginActivateItem(item, "inactive");
+        setDelta(delta * 0.125);
+        beginActivateItem(item, "inactive");
     }
 
-    async function afterSiblingsMove(event) {
+    function afterSiblingsMove(event) {
         if (ref.current)
             ref.current.removeEventListener("transitionend", afterSiblingsMove, {once: true});
         if (event.propertyName === "opacity"){
@@ -91,7 +91,7 @@ export default function ListItemCustom(props){
                 onClick={onItemClick}
             >
                 <ListItemText
-                primary={item.item}
+                primary={item.name}
                 secondary={`Price: ${item.price}`}
                 />
                 <ListItemSecondaryAction>
