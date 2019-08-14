@@ -183,7 +183,7 @@ export default function ListBottom(props) {
                 handleDeleteFormClose={handleDeleteFormClose}
             />
             <div className={classes.submitButtonContainer}>
-            <Button variant="contained" className={classes.submitButton}>
+            <Button variant="contained" className={classes.submitButton} onClick={props.handleSubmit}>
                 PLACE ITEMS
             </Button>
             </div>

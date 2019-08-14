@@ -49,6 +49,25 @@ class Main extends Component {
     }
   }
 
+  handleSubmit = () => {
+    const url = 'http://localhost:4000/items/update';
+    var data = { active: {}, inactive: {} };
+    this.state.active.map((item, index) => {
+      data.active[index] = String(item._id);
+    });
+    this.state.inactive.map((item, index) => {
+      data.inactive[index] = String(item._id);
+    })
+    const request = new Request(url, {
+        method: 'POST', 
+        body: JSON.stringify(data), 
+        headers: new Headers({ "Content-Type": "application/json" }),
+    });
+
+    return fetch(request)
+    .then(res => res.json())
+  }
+
   activateItem = (item) => {
     const {_id} = item;
     delete item.clicked;
@@ -101,6 +120,7 @@ class Main extends Component {
           beginActivateItem={this.beginActivateItem}
           activateItem={this.activateItem}
           showItem={this.showItem}
+          handleSubmit={this.handleSubmit}
         />
     </Fragment>
     );
