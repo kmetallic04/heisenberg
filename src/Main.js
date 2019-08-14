@@ -65,7 +65,14 @@ class Main extends Component {
     });
 
     return fetch(request)
-    .then(res => res.json())
+    .then(getItems())
+    .then(items => {
+      this.setState({
+        loading: false,
+        active: items.data.filter(item => !item.active).sort(compare),
+        inactive: items.data.filter(item => item.active).sort(compare),
+      });
+    });
   }
 
   activateItem = (item) => {
