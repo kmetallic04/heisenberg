@@ -23,7 +23,8 @@ const useStyles = makeStyles(theme => ({
         transitionTimingFunction: "ease-out",
     },
     menuCaption: {
-        backgroundColor: "#FFB449",
+        color: "black",
+        backgroundColor: "#FFBB00",
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(1),
         width: 250
@@ -44,6 +45,9 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1)
     },
+    addIcon: {
+        color: "white",
+    },
     //For the inner elements of the text field
     resize: {
         fontSize: 50
@@ -56,7 +60,8 @@ const useStyles = makeStyles(theme => ({
         justifyContent: "flex-end",
     },
     submitButton: {
-        backgroundColor: "#FF8A37",
+        color: '#FFFFFF',
+        backgroundColor: "#008F40",
     },
     listItem: {
         marginTop: theme.spacing(1),
@@ -152,8 +157,7 @@ export default function ListBottom(props) {
                 <Chip 
                     className = {classes.menuCaption} 
                     label="ALL ITEMS"
-                    color="primary" 
-                    icon={<Restaurant />} 
+                    icon={<Restaurant style={{ color: 'black' }}/>} 
                 />
                 <div>
                     <Fab 
@@ -162,7 +166,7 @@ export default function ListBottom(props) {
                     size="small"
                     onClick={handleCreateFormOpen}
                     >
-                        <AddIcon />
+                    <AddIcon className={classes.addIcon} />
                     </Fab>
                 </div>
             </div>

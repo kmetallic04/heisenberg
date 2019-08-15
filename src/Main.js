@@ -42,8 +42,8 @@ class Main extends Component {
       getItems().then(items => {
         this.setState({
           loading: false,
-          active: items.data.filter(item => !item.active).sort(compare),
-          inactive: items.data.filter(item => item.active).sort(compare),
+          active: items.data.filter(item => item.active).sort(compare),
+          inactive: items.data.filter(item => !item.active).sort(compare),
         });
       });
     }
@@ -51,7 +51,7 @@ class Main extends Component {
 
   handleSubmit = () => {
     const url = 'http://localhost:4000/items/update';
-    var data = { active: {}, inactive: {} };
+    var data = { active: [], inactive: [] };
     this.state.active.map((item, index) => {
       data.active[index] = String(item._id);
     });
@@ -59,18 +59,18 @@ class Main extends Component {
       data.inactive[index] = String(item._id);
     })
     const request = new Request(url, {
-        method: 'POST', 
+        method: 'PUT', 
         body: JSON.stringify(data), 
         headers: new Headers({ "Content-Type": "application/json" }),
     });
 
-    return fetch(request)
-    .then(getItems())
+    fetch(request)
+    .then(() => getItems())
     .then(items => {
       this.setState({
         loading: false,
-        active: items.data.filter(item => !item.active).sort(compare),
-        inactive: items.data.filter(item => item.active).sort(compare),
+        active: items.data.filter(item => item.active).sort(compare),
+        inactive: items.data.filter(item => !item.active).sort(compare),
       });
     });
   }

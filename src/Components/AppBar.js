@@ -14,7 +14,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles(theme => ({
     mainAppBar: {
-      backgroundColor: "#FF8A37",
+      backgroundColor: "#0B273B",
     },
     menuButton: {
       marginRight: theme.spacing(2),

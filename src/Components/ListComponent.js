@@ -6,6 +6,7 @@ import {
     ListItemText,
     ListItemSecondaryAction,
     IconButton,
+    Typography,
 } from '@material-ui/core';
 
 import RemoveCircle from '@material-ui/icons/RemoveCircle';
@@ -67,8 +68,8 @@ export default function ListItemCustom(props){
         >
             <ListItem>
                 <ListItemText
-                primary={item.name}
-                secondary={`Price: ${item.price}`}
+                primary={<Typography style={{ color: '#FF9100' }}>{item.name}</Typography>}
+                secondary={<Typography style={{ color: '#7B8D9C' }}>{`Price: ${item.price}`}</Typography>}
                 />
                 <ListItemSecondaryAction>
                 <IconButton onClick={onItemClick} edge="end" aria-label="Delete">

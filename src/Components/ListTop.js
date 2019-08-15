@@ -12,7 +12,8 @@ import ListComponent from './ListComponent';
 
 const useStyles = makeStyles(theme => ({
     menuCaption: {
-        backgroundColor: "#FFB449",
+        color: "black",
+        backgroundColor: "#FFBB00",
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(1),
         display: "flex",

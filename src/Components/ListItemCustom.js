@@ -6,6 +6,7 @@ import {
     ListItemText,
     ListItemSecondaryAction,
     IconButton,
+    Typography,
 } from '@material-ui/core';
 
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -15,8 +16,8 @@ const delayTransform = 0.125;
 
 const useStyles = makeStyles(theme => ({
     listItem: {
-        color: "#F7FCFF",
-        backgroundColor:"#3C5867",
+        color: "",
+        backgroundColor:"#0B273B",
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
         borderRadius: "0",
@@ -91,8 +92,8 @@ export default function ListItemCustom(props){
                 onClick={onItemClick}
             >
                 <ListItemText
-                primary={item.name}
-                secondary={`Price: ${item.price}`}
+                primary={<Typography style={{ color: '#F7FCFF' }}>{item.name}</Typography>}
+                secondary={<Typography style={{ color: '#7B8D9C' }}>{`Price: ${item.price}`}</Typography>}
                 />
                 <ListItemSecondaryAction>
                 <IconButton edge="end" onClick={handleEditFormOpen} aria-label="Edit">
