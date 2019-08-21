@@ -96,10 +96,10 @@ export default function ListItemCustom(props){
                 secondary={<Typography style={{ color: '#7B8D9C' }}>{`Price: ${item.price}`}</Typography>}
                 />
                 <ListItemSecondaryAction>
-                <IconButton edge="end" onClick={handleEditFormOpen} aria-label="Edit">
+                <IconButton edge="end" onClick={() => handleEditFormOpen(item)} aria-label="Edit">
                     <Edit fontSize="small"/>
                 </IconButton>
-                <IconButton edge="end" onClick={handleDeleteFormOpen} aria-label="Delete">
+                <IconButton edge="end" onClick={() => handleDeleteFormOpen(item)} aria-label="Delete">
                     <DeleteIcon className={classes.icons} fontSize="small"/>
                 </IconButton>
                 </ListItemSecondaryAction>

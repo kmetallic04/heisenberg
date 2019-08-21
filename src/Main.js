@@ -5,17 +5,17 @@ import ListTop from './Components/ListTop';
 import lockr from 'lockr';
 
 function compare( a, b ) {
-  if ( a.id < b.id ){
+  if ( a._id < b._id ){
     return -1;
   }
-  if ( a.id > b.id ){
+  if ( a._id > b._id ){
     return 1;
   }
   return 0;
 }
 
 function getItems() {
-  const url = 'http://localhost:4000/items/myItems';
+  const url = 'https://a3dfa65b.ngrok.io/items/myItems';
   let data = lockr.get('data');
   var request = new Request(url, {
       method: 'POST', 
@@ -25,6 +25,7 @@ function getItems() {
 
   return fetch(request)
   .then(res => res.json())
+  .catch(err => { throw err })
 }
 
 class Main extends Component {
@@ -39,18 +40,22 @@ class Main extends Component {
 
   componentWillMount(){
     if (this.state.loading) {
-      getItems().then(items => {
-        this.setState({
-          loading: false,
-          active: items.data.filter(item => item.active).sort(compare),
-          inactive: items.data.filter(item => !item.active).sort(compare),
-        });
-      });
+      this.refresh();
     }
   }
 
+  refresh = () => {
+    return getItems().then(items => {
+      this.setState({
+        loading: false,
+        active: items.data.filter(item => item.active).sort(compare),
+        inactive: items.data.filter(item => !item.active).sort(compare),
+      });
+    });
+  }
+
   handleSubmit = () => {
-    const url = 'http://localhost:4000/items/update';
+    const url = 'https://a3dfa65b.ngrok.io/items/update';
     var data = { active: [], inactive: [] };
     this.state.active.map((item, index) => {
       data.active[index] = String(item._id);
@@ -64,15 +69,9 @@ class Main extends Component {
         headers: new Headers({ "Content-Type": "application/json" }),
     });
 
-    fetch(request)
-    .then(() => getItems())
-    .then(items => {
-      this.setState({
-        loading: false,
-        active: items.data.filter(item => item.active).sort(compare),
-        inactive: items.data.filter(item => !item.active).sort(compare),
-      });
-    });
+    return fetch(request)
+    .then(this.refresh)
+    .catch(err => { throw err })
   }
 
   activateItem = (item) => {
@@ -115,7 +114,7 @@ class Main extends Component {
   render() {
     return (
       <Fragment>
-        <AppBar />
+        <AppBar history={this.props.history}/>
         <ListTop 
           items={this.state.active}
           disableItem={this.disableItem}
@@ -128,6 +127,7 @@ class Main extends Component {
           activateItem={this.activateItem}
           showItem={this.showItem}
           handleSubmit={this.handleSubmit}
+          refresh={this.refresh}
         />
     </Fragment>
     );

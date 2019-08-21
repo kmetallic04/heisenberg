@@ -80,6 +80,9 @@ export default function ListBottom(props) {
     const [editFormOpen, setEditFormOpen] = useState(false);
     const [delta, setDelta] = useState(0);
     const [transformValue, setTransformValue] = useState(0);
+
+    const [editItem, setEditItem] = useState("");
+    const [deleteItem, setDeleteItem] = useState("");
     
     const commonEmitter = new EventEmitter();
 
@@ -92,7 +95,8 @@ export default function ListBottom(props) {
         setCreateFormOpen(false);
     }
 
-    function handleDeleteFormOpen(){
+    function handleDeleteFormOpen(item){
+        setDeleteItem(item)
         setDeleteFormOpen(true);
     }
 
@@ -100,7 +104,8 @@ export default function ListBottom(props) {
         setDeleteFormOpen(false);
     }
 
-    function handleEditFormOpen(){
+    function handleEditFormOpen(item){
+        setEditItem(item);
         setEditFormOpen(true);
     }
 
@@ -176,15 +181,20 @@ export default function ListBottom(props) {
             <CreateDialog 
                 createFormOpen={createFormOpen}
                 handleCreateFormClose={handleCreateFormClose}
+                refresh={props.refresh}
             />
             <EditDialog 
                 /* TODO: FIgure this out*/
                 editFormOpen={editFormOpen}
                 handleEditFormClose={handleEditFormClose}
+                item={editItem}
+                refresh={props.refresh}
             />
             <DeleteDialog 
                 deleteFormOpen={deleteFormOpen}
                 handleDeleteFormClose={handleDeleteFormClose}
+                item={deleteItem}
+                refresh={props.refresh}
             />
             <div className={classes.submitButtonContainer}>
             <Button variant="contained" className={classes.submitButton} onClick={props.handleSubmit}>

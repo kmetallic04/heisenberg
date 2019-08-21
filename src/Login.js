@@ -13,6 +13,7 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        background: "darkorange",
     },
     formContainer: {
         display: "flex",
@@ -21,15 +22,19 @@ const useStyles = makeStyles(theme => ({
     },
     headerContainer: {
         textAlign: "center",
+        color: "#FFFFFF",
         marginBottom: theme.spacing(3),
     },
     textField: {
         display: "block",
+        color:"#FFFFFF",
         margin: "auto",
         marginBottom: theme.spacing(3),
         width: 200,
     },
     button: {
+        color: "#FFFFFF",
+        borderColor: "#FFFFFF",
         width: 200,
         marginTop: theme.spacing(5),
     },
@@ -53,7 +58,7 @@ export default function Login(props){
     const handleClick = () => {
         setError(null)
 
-        const url = 'http://localhost:4000/vendors/login';
+        const url = 'https://a3dfa65b.ngrok.io/vendors/login';
         let data = {
             email: vendor,
             password: pass,
@@ -82,7 +87,8 @@ export default function Login(props){
                     setError('Something blew up. We\'re looking into it');
                     break;
             }
-        });
+        })
+        .catch(err => setError(err.message))
     }
 
     return (
@@ -110,7 +116,6 @@ export default function Login(props){
                     />
                     <Button 
                         variant="outlined" 
-                        color="secondary" 
                         className={classes.button}
                         onClick={handleClick}
                         >

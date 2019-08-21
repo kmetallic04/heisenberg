@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     AppBar,
@@ -12,6 +12,10 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
+import Drawer from './Drawer';
+
+import lockr from 'lockr';
+
 const useStyles = makeStyles(theme => ({
     mainAppBar: {
       backgroundColor: "#0B273B",
@@ -24,9 +28,12 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-export default function() {
+export default function(props) {
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const [drawerOpen, toggleDrawerOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+
     const open = Boolean(anchorEl);
 
     function handleMenu(event) {
@@ -37,10 +44,20 @@ export default function() {
         setAnchorEl(null);
     }
 
+    function logOut() {
+      lockr.flush();
+      props.history.push("/");
+    }
+
     return (
         <AppBar className={classes.mainAppBar} position="static">
         <Toolbar className={classes.menuButton}>
-          <IconButton edge="start" color="inherit" aria-label="Menu">
+          <IconButton 
+          edge="start" 
+          color="inherit" 
+          aria-label="Menu"
+          onClick={()=>toggleDrawerOpen(true)}
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
@@ -72,10 +89,14 @@ export default function() {
                 onClose={handleClose}
               >
                 <MenuItem >My Account</MenuItem>
-                <MenuItem >Log Out</MenuItem>
+                <MenuItem onClick={logOut}>Log Out</MenuItem>
               </Menu>
             </div>
         </Toolbar>
+        <Drawer 
+        drawerOpen={drawerOpen}
+        toggleDrawerOpen={toggleDrawerOpen}        
+        />
       </AppBar>
     );
 }

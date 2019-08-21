@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Dialog,
@@ -10,6 +10,7 @@ import {
     InputAdornment,
     Zoom
 } from '@material-ui/core';
+import lockr from 'lockr';
 
 const useStyles = makeStyles(theme => ({
     textField: {
@@ -19,12 +20,45 @@ const useStyles = makeStyles(theme => ({
     //For the inner elements of the text field
     resize: {
         fontSize: 50
-    }
+    },
     //TODO: Figure this stuff out
+    primaryButton: {
+        color: "#000000",
+        backgroundColor: "#FFBB00",
+    },
+    secondaryButton: {
+        color: "#FFFFFF",
+        backgroundColor: "#008F40",
+    },
   }));
 
 export default function Dialogue(props){
     const classes = useStyles();
+
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState('');
+
+    const handleCreate = () =>{
+        const url = 'https://a3dfa65b.ngrok.io/items/create';
+        let data = lockr.get('data');
+        data.name = name;
+        data.price = price;
+
+        setName('');
+        setPrice('');
+
+        var request = new Request(url, {
+            method: 'POST', 
+            body: JSON.stringify(data), 
+            headers: new Headers({ "Content-Type": "application/json" }),
+        });
+      
+        return fetch(request)
+        .then(res => res.json())
+        .then(props.refresh)
+        .then(props.handleCreateFormClose)
+        .catch(err => { throw err })
+    }
 
     return (
         <Dialog 
@@ -39,6 +73,8 @@ export default function Dialogue(props){
                 id="create-input-item"
                 className={classes.textField}
                 label="Item"
+                value={name}
+                onChange={(event)=>setName(event.target.value)}
                 fullWidth={true}
                 placeholder="Placeholder"
                 margin="normal"
@@ -49,6 +85,8 @@ export default function Dialogue(props){
                 className={classes.textField}
                 variant="outlined"
                 label="Price"
+                value={price}
+                onChange={(event)=>setPrice(event.target.value)}
                 fullWidth={true}
                 InputProps={{
                     startAdornment: <InputAdornment position="start">KSh</InputAdornment>,
@@ -56,10 +94,10 @@ export default function Dialogue(props){
             />
             </DialogContent>
             <DialogActions>
-            <Button onClick={props.handleCreateFormClose} variant="contained" color="primary">
+            <Button className={classes.primaryButton} onClick={handleCreate} variant="contained">
                 ADD
             </Button>
-            <Button onClick={props.handleCreateFormClose} variant="contained" color="secondary">
+            <Button className={classes.secondaryButton} onClick={props.handleCreateFormClose} variant="contained">
                 CANCEL
             </Button>
             </DialogActions>
