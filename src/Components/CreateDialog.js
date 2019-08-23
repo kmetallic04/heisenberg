@@ -11,6 +11,7 @@ import {
     Zoom
 } from '@material-ui/core';
 import lockr from 'lockr';
+import logOut from "../logout";
 
 const useStyles = makeStyles(theme => ({
     textField: {
@@ -21,7 +22,6 @@ const useStyles = makeStyles(theme => ({
     resize: {
         fontSize: 50
     },
-    //TODO: Figure this stuff out
     primaryButton: {
         color: "#000000",
         backgroundColor: "#FFBB00",
@@ -39,8 +39,8 @@ export default function Dialogue(props){
     const [price, setPrice] = useState('');
 
     const handleCreate = () =>{
-        const url = 'https://a3dfa65b.ngrok.io/items/create';
-        let data = lockr.get('data');
+        const url = 'http://localhost:4000/items/create';
+        var data = lockr.get('data');
         data.name = name;
         data.price = price;
 
@@ -50,11 +50,19 @@ export default function Dialogue(props){
         var request = new Request(url, {
             method: 'POST', 
             body: JSON.stringify(data), 
-            headers: new Headers({ "Content-Type": "application/json" }),
+            headers: new Headers({ 
+                "Content-Type": "application/json",
+                "x-access-token": data.token 
+            }),
         });
       
         return fetch(request)
         .then(res => res.json())
+        .then(result => {
+            if (result.status === 401)
+                logOut(props.history);
+            return Promise.resolve(result);
+        })
         .then(props.refresh)
         .then(props.handleCreateFormClose)
         .catch(err => { throw err })

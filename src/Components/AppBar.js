@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import {
     AppBar,
@@ -13,7 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 import Drawer from './Drawer';
-
+import logOut from "../logout";
 import lockr from 'lockr';
 
 const useStyles = makeStyles(theme => ({
@@ -26,6 +27,10 @@ const useStyles = makeStyles(theme => ({
     title: {
       flexGrow: 1,
     },
+    myAccountLink: {
+        textDecoration: "none",
+        color: "#FF9100",
+    }
   }));
 
 export default function(props) {
@@ -44,9 +49,9 @@ export default function(props) {
         setAnchorEl(null);
     }
 
-    function logOut() {
+    function logMeOut() {
+      logOut(props.history, "/");
       lockr.flush();
-      props.history.push("/");
     }
 
     return (
@@ -88,8 +93,10 @@ export default function(props) {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem >My Account</MenuItem>
-                <MenuItem onClick={logOut}>Log Out</MenuItem>
+                <MenuItem>
+                  <Link className={classes.myAccountLink} to="/account">My Account</Link>
+                </MenuItem>
+                <MenuItem onClick={logMeOut}>Log Out</MenuItem>
               </Menu>
             </div>
         </Toolbar>

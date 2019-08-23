@@ -10,6 +10,9 @@ import {
     Zoom
 } from '@material-ui/core';
 
+import lockr from 'lockr';
+import logOut from "../logout";
+
 const useStyles = makeStyles(theme => ({
     primaryButton: {
         color: "#000000",
@@ -25,17 +28,25 @@ export default function Dialogue(props){
     const classes = useStyles();
 
     const handleDelete = () =>{
-        const url = 'https://a3dfa65b.ngrok.io/items/delete';
+        const url = 'http://localhost:4000/items/delete';
+        const token = lockr.get('data').token;
         const data = props.item;
-        console.log(data)
         var request = new Request(url, {
             method: 'DELETE', 
             body: JSON.stringify(data), 
-            headers: new Headers({ "Content-Type": "application/json" }),
+            headers: new Headers({ 
+                "Content-Type": "application/json",
+                "x-access-token": token 
+            }),
         });
       
         return fetch(request)
         .then(res => res.json())
+        .then(result => {
+            if (result.status === 401)
+                logOut(props.history);
+            return Promise.resolve(result);
+        })
         .then(props.refresh)
         .then(props.handleDeleteFormClose)
         .catch(err => { throw err })

@@ -58,7 +58,7 @@ export default function Login(props){
     const handleClick = () => {
         setError(null)
 
-        const url = 'https://a3dfa65b.ngrok.io/vendors/login';
+        const url = 'http://localhost:4000/vendors/login';
         let data = {
             email: vendor,
             password: pass,
@@ -94,7 +94,7 @@ export default function Login(props){
     return (
         <div className={classes.root}>
             <div className={classes.headerContainer}>
-                <Typography variant="h4" gutterBottom>
+                <Typography variant="h5" gutterBottom>
                     Africa's Talking Catering
                 </Typography>
             </div>

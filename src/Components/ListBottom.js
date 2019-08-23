@@ -182,6 +182,7 @@ export default function ListBottom(props) {
                 createFormOpen={createFormOpen}
                 handleCreateFormClose={handleCreateFormClose}
                 refresh={props.refresh}
+                history={props.history}
             />
             <EditDialog 
                 /* TODO: FIgure this out*/
@@ -189,12 +190,14 @@ export default function ListBottom(props) {
                 handleEditFormClose={handleEditFormClose}
                 item={editItem}
                 refresh={props.refresh}
+                history={props.history}
             />
             <DeleteDialog 
                 deleteFormOpen={deleteFormOpen}
                 handleDeleteFormClose={handleDeleteFormClose}
                 item={deleteItem}
                 refresh={props.refresh}
+                history={props.history}
             />
             <div className={classes.submitButtonContainer}>
             <Button variant="contained" className={classes.submitButton} onClick={props.handleSubmit}>

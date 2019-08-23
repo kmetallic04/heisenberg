@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     List,
     ListItem,
@@ -13,16 +13,20 @@ import {
 import { withStyles, makeStyles } from "@material-ui/core/styles"
 
 import AppBar from "./Components/AppBar"
+import logOut from "./logout";
 
 import lockr from "lockr";
 
 function getItems() {
-    const url = 'https://a3dfa65b.ngrok.io/orders/myOrders';
+    const url = 'http://localhost:4000/orders/myOrders';
     let data = lockr.get('data');
     var request = new Request(url, {
         method: 'POST', 
         body: JSON.stringify(data), 
-        headers: new Headers({ "Content-Type": "application/json" }),
+        headers: new Headers({ 
+            "Content-Type": "application/json",
+            "x-access-token": data.token 
+        }),
     });
 
     return fetch(request)
@@ -49,11 +53,6 @@ const StyledTableRow = withStyles(theme => ({
 }))(TableRow);
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-        marginTop: theme.spacing(1),
-        overflowX: 'auto',
-    },
     clearTop: {
         marginTop: theme.spacing(2),
     }
@@ -65,15 +64,27 @@ export default function Orders(props){
     const [content, setContent] = useState('');
 
     useEffect(() => {
+        if (!lockr.get('data'))
+            logOut(props.history, "/");
+    })
+
+    useEffect(() => {
         getItems()
-        .then(result => setContent(result.data));
+        .then(result => {
+            if (result.status === 401)
+                logOut(props.history, "/");
+            setContent(result.data);
+        })
+        .catch(err => {throw err})
     }, []);
 
+    console.log(content);
+
     return (
-        <Fragment>
-            <AppBar />
+        <div style={{ margin: "8px" }}>
+            <AppBar history={props.history}/>
             <Paper className={classes.clearTop}>
-                {content ? 
+                {content.length ? 
                 <Table className={classes.table}>
                     <TableHead>
                     <TableRow>
@@ -85,21 +96,21 @@ export default function Orders(props){
                     <TableBody>
                     {content.map((item, index) => (
                         <StyledTableRow key={index}>
-                        <StyledTableCell component="th" scope="row">
-                            {item.person}
-                        </StyledTableCell>
-                        <StyledTableCell align="right">{item.item[0].name}</StyledTableCell>
+                        <StyledTableCell component="th" scope="row">{item.person}</StyledTableCell>
+                        <StyledTableCell align="right">{item.name}</StyledTableCell>
                         <StyledTableCell align="right">{item.amount}</StyledTableCell>
                         </StyledTableRow>
                     ))}
                     </TableBody>
                 </Table>   
                 :
-                <ListItem>
-                    <ListItemText primary="No orders have been made... So far"/>
-                </ListItem>
+                <List>
+                    <ListItem>
+                        <ListItemText primary="No orders have been made... So far"/>
+                    </ListItem>
+                </List>
                 }
             </Paper>
-        </Fragment>
+        </div>
     );   
 }

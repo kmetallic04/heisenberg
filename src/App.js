@@ -5,6 +5,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Login from './Login';
 import Main from './Main';
 import Orders from './Orders';
+import Account from './Account';
 
 const THEME = createMuiTheme({
     typography: {
@@ -23,6 +24,7 @@ export default function App(props) {
                 <Route exact path='/' component={Login}/>
                 <Route path='/vendors' component={Main}/>
                 <Route path='/orders' component={Orders}/>
+                <Route path='/account' component={Account}/>
             </Switch>
         </MuiThemeProvider>
     );

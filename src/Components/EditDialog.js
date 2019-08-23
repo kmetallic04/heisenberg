@@ -11,6 +11,9 @@ import {
     Zoom
 } from '@material-ui/core';
 
+import lockr from 'lockr';
+import logOut from "../logout";
+
 const useStyles = makeStyles(theme => ({
     textField: {
         marginTop: theme.spacing(1),
@@ -37,33 +40,38 @@ export default function Dialogue(props){
 
     const [name, setName] = useState(props.item.name);
     const [price, setPrice] = useState(props.item.price);
-    const [objId, setObjId] = useState(null)
     const [nameEdited, setNameEdited] = useState(false);
     const [priceEdited, setPriceEdited] = useState(false);
 
     useEffect(() => {
-        if (objId !== props.item._id) {
-            setObjId(props.item._id);
-            setNameEdited(false);
-            setName(props.item.name);
-            setPriceEdited(false);
-            setPrice(props.item.price);
-        }
-    });
+        setNameEdited(false);
+        setName(props.item.name);
+        setPriceEdited(false);
+        setPrice(props.item.price);
+    },[props.item._id]);
 
     function editItem(item) {
-        const url = 'https://a3dfa65b.ngrok.io/items/update/edit';
+        const url = 'http://localhost:4000/items/update/edit';
+        const token = lockr.get('data').token;
         let data = item;
         data.name = name || props.item.name;
         data.price = price || props.item.price;
         var request = new Request(url, {
             method: 'PUT', 
             body: JSON.stringify(data), 
-            headers: new Headers({ "Content-Type": "application/json" }),
+            headers: new Headers({ 
+                "Content-Type": "application/json",
+                "x-access-token": token 
+            }),
         });
     
         return fetch(request)
         .then(res => res.json())
+        .then(result => {
+            if (result.status === 401)
+                logOut(props.history);
+            return Promise.resolve(result);
+        })
         .then(props.refresh)
         .then(props.handleEditFormClose)
         .catch(err => { throw err })

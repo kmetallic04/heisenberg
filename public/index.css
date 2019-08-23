@@ -3,7 +3,8 @@ html, body, #root {
 }
 
 body {
-    background-color: #F7FCFF
+    background-color: #F7FCFF;
+    margin: 0;
 }
 
 #root {
