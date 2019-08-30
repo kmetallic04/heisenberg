@@ -39,7 +39,7 @@ export default function Dialogue(props){
     const [price, setPrice] = useState('');
 
     const handleCreate = () =>{
-        const url = 'http://localhost:4000/items/create';
+        const url = 'http://app:4000/items/create';
         var data = lockr.get('data');
         data.name = name;
         data.price = price;

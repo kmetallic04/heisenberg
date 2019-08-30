@@ -18,7 +18,7 @@ import logOut from "./logout";
 import lockr from "lockr";
 
 function getItems() {
-    const url = 'http://localhost:4000/orders/myOrders';
+    const url = 'http://app:4000/orders/myOrders';
     let data = lockr.get('data');
     var request = new Request(url, {
         method: 'POST', 

@@ -17,7 +17,7 @@ function compare( a, b ) {
 }
 
 function getItems() {
-  const url = 'http://localhost:4000/items/myItems';
+  const url = 'http://app:4000/items/myItems';
   let data = lockr.get('data');
   var request = new Request(url, {
       method: 'POST', 
@@ -77,7 +77,7 @@ export default withStyles(styles)(class Main extends Component {
     }
 
     handleSubmit = () => {
-      const url = 'http://localhost:4000/items/update';
+      const url = 'http://app:4000/items/update';
       
       const token = lockr.get('data').token;
       var data = { active: [], inactive: [] };

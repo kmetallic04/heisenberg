@@ -28,7 +28,7 @@ export default function Dialogue(props){
     const classes = useStyles();
 
     const handleDelete = () =>{
-        const url = 'http://localhost:4000/items/delete';
+        const url = 'http://app:4000/items/delete';
         const token = lockr.get('data').token;
         const data = props.item;
         var request = new Request(url, {

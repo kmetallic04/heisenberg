@@ -51,7 +51,7 @@ export default function Dialogue(props){
     },[props.item._id]);
 
     function editItem(item) {
-        const url = 'http://localhost:4000/items/update/edit';
+        const url = 'http://app:4000/items/update/edit';
         const token = lockr.get('data').token;
         let data = item;
         data.name = name || props.item.name;
