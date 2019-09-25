@@ -1,6 +1,5 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
+## Vendor Dashboard
+This is the dashboard that allows vendors to activate/deactivate items that will show on Slack
 
 In the project directory, you can run:
 
